@@ -4,12 +4,12 @@ import { getResourceHandler } from "./handler";
 import { generateInternalServerErrorResponse } from "./util/responseGenerator";
 
 export const handler = async (event: APIGatewayEvent, context: Context): Promise<APIGatewayProxyResult> => {
-    
-    const resourceHandler = getResourceHandler(event.path.substring(1));
+    console.log(event);
+    const resourceHandler = getResourceHandler(event.resource.substring(1));
     if (resourceHandler) {
         return await resourceHandler(event, context);
     } else {
-        console.log(`Couldn't find handler for resource ${event.path}`);
+        console.log(`Couldn't find handler for resource ${event.resource}`);
         return generateInternalServerErrorResponse({});
     }
 }

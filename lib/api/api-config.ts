@@ -7,7 +7,7 @@ export enum HttpRequestMethod {
   }
 
 export enum Resources {
-    CaseStatus = "CaseStatus",
+    CaseStatus = "CaseStatus/{receiptNumber}",
     StatusUpdate = "StatusUpdate"
 }
 

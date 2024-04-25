@@ -1,5 +1,5 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
-import { Cors, LambdaIntegration, LambdaRestApi } from 'aws-cdk-lib/aws-apigateway';
+import { Cors, LambdaIntegration, LambdaRestApi, Resource, Stage } from 'aws-cdk-lib/aws-apigateway';
 import { Function } from 'aws-cdk-lib/aws-lambda';
 import { Construct } from 'constructs';
 import { resourceToMethodMap } from './api/api-config';
@@ -24,10 +24,24 @@ export class ApiGatewayStack extends Stack {
         const lambdaFunctionIntegration = new LambdaIntegration(props.lambdaFunction);
 
         resourceToMethodMap.forEach((methods, resource) => {
-            const httpResource = uscisCaseUpdateAPI.root.addResource(resource);
-            methods.forEach((method) => {
-                httpResource.addMethod(method, lambdaFunctionIntegration);
-            })
+            const httpResource = this.addResource(uscisCaseUpdateAPI, resource);
+            if (httpResource) {
+                methods.forEach((method) => {
+                    httpResource.addMethod(method, lambdaFunctionIntegration);
+                })
+            }
         });
+    }
+
+    addResource = (api: LambdaRestApi, resource: string): Resource | undefined => {
+        let httpResource: Resource | undefined = undefined;
+        resource.split("/").forEach((resourceId) => {
+            if (httpResource !== undefined) {
+                httpResource = httpResource.addResource(resourceId);
+            } else {
+                httpResource = api.root.addResource(resourceId);
+            }
+        });
+        return httpResource;
     }
 }
