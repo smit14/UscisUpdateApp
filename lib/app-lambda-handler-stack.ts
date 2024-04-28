@@ -17,18 +17,20 @@ export class AppLambdaHandlerStack extends Stack {
             entry: path.join(__dirname, '../src/app-lambda/index.ts'),
             handler: 'handler'
         });
+
+        this.addPermissionsToLambdaRole(props.env!!.region!!, props.env!!.account!!)
     }
 
-    addPermissionsToLambdaRole = (region: string, accountId: string, queueArns: string[]) => {
+    addPermissionsToLambdaRole = (region: string, accountId: string) => {
         const ddbPolicy = new PolicyStatement({
           actions: ['dynamodb:*'],
           resources: [`arn:aws:dynamodb:${region}:${accountId}:table/${TABLE_NAME}*`]
         });
 
-        const sqsPolicy = new PolicyStatement({
-          actions: ['sqs:*'],
-          resources: queueArns
-        });
+        // const sqsPolicy = new PolicyStatement({
+        //   actions: ['sqs:*'],
+        //   resources: queueArns
+        // });
 
         const secretManagerPolicy = new PolicyStatement({
           actions: ['secretsmanager:*'],
@@ -41,7 +43,7 @@ export class AppLambdaHandlerStack extends Stack {
         });
 
         this.lambdaFunction.role?.attachInlinePolicy(new Policy(this, 'lambda-function-policy', {
-          statements: [ddbPolicy, sqsPolicy, secretManagerPolicy, evidentlyPolicy]
+          statements: [ddbPolicy]
         }));
       }
 }

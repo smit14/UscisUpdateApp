@@ -20,5 +20,6 @@ cdk ls
 
 ## Deploy
 ```
+cdk deploy UscisUpdateAppDBStack
 cdk deploy UscisUpdateAppApiStack
 ```

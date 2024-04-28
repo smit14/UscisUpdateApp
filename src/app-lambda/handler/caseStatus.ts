@@ -2,6 +2,7 @@ import { APIGatewayEvent, APIGatewayProxyResult, Context } from "aws-lambda";
 import { CaseStatusHandlerProps } from ".";
 import { HttpRequestMethod } from "../../../lib/api/api-config";
 import { InvalidRequestBodyError } from "../../common/error";
+import { getCaseStatus } from "../../dependency/uscis";
 import { transformLambdaInputToCaseStatusHandlerInput } from "../transformer/caseStatus";
 import { generateOkResponse, generateInternalServerErrorResponse, generateClientErrorResponse } from "../util/responseGenerator";
 
@@ -13,7 +14,7 @@ export const handler = async (event: APIGatewayEvent, context: Context): Promise
     } catch (error: any) {
         console.log("error while transforming input to handler input", error);
         if (error instanceof InvalidRequestBodyError) {
-            throw generateClientErrorResponse({error: "Invalid request body"});
+            return generateClientErrorResponse({error: "Invalid request body"});
         }
         return generateInternalServerErrorResponse({});
     }
@@ -21,10 +22,8 @@ export const handler = async (event: APIGatewayEvent, context: Context): Promise
     const {requestMethod, receiptNumber} = handlerProps
     if (requestMethod === HttpRequestMethod.GET) {
         try {
-            console.log(receiptNumber);
-            return generateOkResponse({
-
-            });
+            const response = await getCaseStatus(receiptNumber);
+            return generateOkResponse(response);
         } catch (err){
             console.log(err);
             return generateInternalServerErrorResponse({})

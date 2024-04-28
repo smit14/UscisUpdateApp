@@ -1,35 +1,8 @@
 export enum DEPENDENCIES {
-    PLAID = 'PLAID',
     DDB = 'DDB',
-    SQS = 'SQS',
     SECRET_MANAGER = 'SECRET_MANAGER',
 }
 
 export enum OPERATIONS {
-    ADD_ITEM = 'AddItem',
-    ADD_ACCOUNTS = 'AddAccounts',
-    UPDATE_TRANSACTION_FETCH_STATE = 'UpdateTransactionFetchState',
-    UPDATE_TRANSACTIONS = 'UpdateTransactions',
-    GET_INSTITUTION = 'GetInstitution',
-    GET_ACCOUNT = 'GetAccount',
-    REMOVE_ACCOUNT = 'RemoveAccount',
-    GET_ITEM = 'GetItem',
-    REMOVE_ITEM = 'RemoveItem',
-    CREATE_LINK_TOKEN = 'CreateLinkToken',
-    EXCHANGE_PUBLIC_TOKEN = 'ExchangePublicToken',
-    FETCH_TRANSACTIONS = 'FetchTransactions',
-    SEND_MESSAGE = 'SendMessage',
-    FETCH_SECRET = 'FetchSecret',
-    GET_ACCOUNTS = 'GetAccounts',
-    QUERY_ACCOUNT_TRANSACTIONS = "QueryAccountTransactions",
-    GET_ITEMS = "GetItems",
-    QUERY_TRANSACTIONS = "QueryTransactions",
-    QUERY_QUEUE_TRANSACTIONS = "QueryQueueTransactions",
-    ADD_QUEUE = "AddQueue",
-    GET_QUEUES = "GetQueues",
-    UPDATE_TRANSACTION = "UpdateTransaction",
-    UPDATE_ITEM_STATE = "UpdateItemState",
-    GET_TRANSACTION = "GetTransaction",
-    QUERY_ONBOARDING = "QueryOnboarding",
-    UPDATE_ONBOARDING = "UpdateOnboarding"
+    ADD_STATUS_UPDATE = "ADD_STATUS_UPDATE"
 }
